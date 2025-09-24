@@ -1,5 +1,5 @@
-import AIDevelopmentDashboard from '@/components/platform/ai-development-dashboard';
+import MainLayout from '@/components/main-layout';
 
 export default function Home() {
-  return <AIDevelopmentDashboard />;
+  return <MainLayout />;
 }
