@@ -48,7 +48,7 @@ export interface GeneratedAndroidFile {
 
 export class AndroidExpertAgent extends BaseAgentImpl {
   private templates: Map<string, string> = new Map();
-  private generators: Map<string, Function> = new Map();
+  private generators: Map<string, (paam: PAAM, options: any) => GeneratedAndroidFile[]> = new Map();
 
   constructor() {
     super({
@@ -383,7 +383,7 @@ export class AndroidExpertAgent extends BaseAgentImpl {
     const files: GeneratedAndroidFile[] = [];
 
     // Generate extensions
-    val extensionsContent = this.generateExtensionsContent();
+    const extensionsContent = this.generateExtensionsContent();
     files.push({
       path: 'app/src/main/java/com/example/app/utils/Extensions.kt',
       content: extensionsContent,
@@ -392,7 +392,7 @@ export class AndroidExpertAgent extends BaseAgentImpl {
     });
 
     // Generate constants
-    val constantsContent = this.generateConstantsContent();
+    const constantsContent = this.generateConstantsContent();
     files.push({
       path: 'app/src/main/java/com/example/app/utils/Constants.kt',
       content: constantsContent,
@@ -401,7 +401,7 @@ export class AndroidExpertAgent extends BaseAgentImpl {
     });
 
     // Generate UI theme
-    val themeContent = this.generateThemeContent(paam);
+    const themeContent = this.generateThemeContent(paam);
     files.push({
       path: 'app/src/main/java/com/example/app/ui/theme/Theme.kt',
       content: themeContent,
@@ -509,7 +509,7 @@ import com.example.app.data.model.*
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun ${paam.entities[0]?.name.toLowerCase() ?: 'entity'}Dao(): ${paam.entities[0]?.name}Dao?
+    abstract fun entityDao(): EntityDao?
     
     companion object {
         @Volatile

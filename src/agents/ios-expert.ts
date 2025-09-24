@@ -47,7 +47,7 @@ export interface GeneratedIOSFile {
 
 export class IOSExpertAgent extends BaseAgentImpl {
   private templates: Map<string, string> = new Map();
-  private generators: Map<string, Function> = new Map();
+  private generators: Map<string, (paam: PAAM, options: any) => GeneratedIOSFile[]> = new Map();
 
   constructor() {
     super({
@@ -375,7 +375,7 @@ export class IOSExpertAgent extends BaseAgentImpl {
     // Generate utilities
     const utilsContent = this.generateUtilsContent();
     files.push({
-      path: 'App/Utils/Utils.swift`,
+      path: "App/Utils/Utils.swift",
       content: utilsContent,
       type: 'utility',
       language: 'swift'
@@ -994,8 +994,9 @@ enum APIError: Error, LocalizedError {
             return "Decoding error: \\(error.localizedDescription)"
         }
     }
-}`;
-  }
+}
+`;
+}
 
   /**
    * Map PAAM type to Core Data type

@@ -46,7 +46,7 @@ export interface GeneratedFile {
 
 export class WebExpertAgent extends BaseAgentImpl {
   private templates: Map<string, string> = new Map();
-  private generators: Map<string, Function> = new Map();
+  private generators: Map<string, (paam: PAAM, options: any) => GeneratedWebFile[]> = new Map();
 
   constructor() {
     super({
