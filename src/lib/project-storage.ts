@@ -153,25 +153,27 @@ export const projectStorage: ProjectStorage = {
   }
 };
 
-// Initialize storage from localStorage on module load
-try {
-  const stored = localStorage.getItem('paam-projects');
-  if (stored) {
-    const projectsArray = JSON.parse(stored);
-    const convertedProjects = projectsArray.map((project: any) => ({
-      ...project,
-      createdAt: new Date(project.createdAt),
-      updatedAt: new Date(project.updatedAt),
-      deploymentHistory: project.deploymentHistory?.map((dep: any) => ({
-        ...dep,
-        lastDeployed: dep.lastDeployed ? new Date(dep.lastDeployed) : undefined
-      })) || []
-    }));
+// Initialize storage from localStorage on module load (client-side only)
+if (typeof window !== 'undefined') {
+  try {
+    const stored = localStorage.getItem('paam-projects');
+    if (stored) {
+      const projectsArray = JSON.parse(stored);
+      const convertedProjects = projectsArray.map((project: any) => ({
+        ...project,
+        createdAt: new Date(project.createdAt),
+        updatedAt: new Date(project.updatedAt),
+        deploymentHistory: project.deploymentHistory?.map((dep: any) => ({
+          ...dep,
+          lastDeployed: dep.lastDeployed ? new Date(dep.lastDeployed) : undefined
+        })) || []
+      }));
 
-    convertedProjects.forEach((project: PAAMProject) => {
-      projects.set(project.id, project);
-    });
+      convertedProjects.forEach((project: PAAMProject) => {
+        projects.set(project.id, project);
+      });
+    }
+  } catch (error) {
+    console.error('Failed to initialize project storage:', error);
   }
-} catch (error) {
-  console.error('Failed to initialize project storage:', error);
 }

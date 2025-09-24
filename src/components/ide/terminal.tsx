@@ -20,7 +20,7 @@ import {
   Maximize2,
   Minimize2,
   Copy,
-  Clear,
+  Trash2,
   Upload,
   Download,
   Command,
@@ -499,7 +499,7 @@ Type 'help' for available commands`;
             className="h-7 w-7 p-0"
             title="Clear terminal"
           >
-            <Clear className="w-3 h-3" />
+            <Trash2 className="w-3 h-3" />
           </Button>
 
           <Button
